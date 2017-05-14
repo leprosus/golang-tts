@@ -1,5 +1,9 @@
 # Golang Text-to-Speech package base on AWS Polly
 
+## Getting access
+
+Just go to [https://console.aws.amazon.com/iam/home#/security_credential](https://console.aws.amazon.com/iam/home#/security_credential) (if haven't registered user then to have sign up) and open **Access Keys** tab
+
 ## Settings
 
 ```go
@@ -17,7 +21,7 @@ if err != nil {
 ioutil.WriteFile("./result.mp3", bytes, 0644)
 ```
 
-## List all methods
+## List of all methods
 
 * golang_tts.New(accessKey, secretKey) - initializes new TTS client
 * golang_tts.Format(golang_ttl.MP3) - sets output format (mp3 is default)
