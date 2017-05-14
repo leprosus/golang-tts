@@ -11,7 +11,7 @@ polly.Voice(golang_tts.Brian)
 text := "To read or not to read"
 bytes, err := polly.Speech(text)
 if err != nil {
-    t.Fatal(err)
+    panic(err)
 }
 
 ioutil.WriteFile("./result.mp3", bytes, 0644)
