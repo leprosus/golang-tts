@@ -82,10 +82,11 @@ type tts struct {
 }
 
 type request struct {
-	OutputFormat string
-	SampleRate   string
-	Text         string
-	VoiceId      string
+	OutputFormat	string
+	SampleRate	string
+	Text		string
+	VoiceId		string
+	TextType	string
 }
 
 func New(accessKey string, secretKey string) *tts {
@@ -93,10 +94,11 @@ func New(accessKey string, secretKey string) *tts {
 		accessKey: accessKey,
 		secretKey: secretKey,
 		request: request{
-			OutputFormat: "mp3",
-			SampleRate: "22050",
-			Text:         "",
-			VoiceId:      "Brian"}}
+			OutputFormat:	"mp3",
+			SampleRate:	"22050",
+			Text:		"",
+			TextType:	"text",
+			VoiceId:	"Brian"}}
 }
 
 func (tts *tts) Format(format format) {
@@ -114,6 +116,10 @@ func (tts *tts) SampleRate(rate rate) {
 
 func (tts *tts) Voice(voice string) {
 	tts.request.VoiceId = fmt.Sprintf("%s", voice)
+}
+
+func (tts *tts) TextType(textType string) {
+	tts.request.TextType = fmt.Sprintf("%s", textType)
 }
 
 func (tts *tts) Speech(text string) ([]byte, error) {
