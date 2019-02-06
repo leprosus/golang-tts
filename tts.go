@@ -69,39 +69,41 @@ const (
 	Tatyana   = "Tatyana"
 	Astrid    = "Astrid"
 	Filiz     = "Filiz"
+	Aditi     = "Aditi"
+	Matthew   = "Matthew"
 )
 
 type format int
 type rate int
 type voice int
 
-type tts struct {
+type TTS struct {
 	accessKey string
 	secretKey string
 	request   request
 }
 
 type request struct {
-	OutputFormat	string
-	SampleRate	string
-	Text		string
-	VoiceId		string
-	TextType	string
+	OutputFormat string
+	SampleRate   string
+	Text         string
+	VoiceId      string
+	TextType     string
 }
 
-func New(accessKey string, secretKey string) *tts {
-	return &tts{
+func New(accessKey string, secretKey string) *TTS {
+	return &TTS{
 		accessKey: accessKey,
 		secretKey: secretKey,
 		request: request{
-			OutputFormat:	"mp3",
-			SampleRate:	"22050",
-			Text:		"",
-			TextType:	"text",
-			VoiceId:	"Brian"}}
+			OutputFormat: "mp3",
+			SampleRate:   "22050",
+			Text:         "",
+			TextType:     "text",
+			VoiceId:      "Brian"}}
 }
 
-func (tts *tts) Format(format format) {
+func (tts *TTS) Format(format format) {
 	switch format {
 	case MP3:
 		tts.request.OutputFormat = "mp3"
@@ -110,19 +112,19 @@ func (tts *tts) Format(format format) {
 	}
 }
 
-func (tts *tts) SampleRate(rate rate) {
+func (tts *TTS) SampleRate(rate rate) {
 	tts.request.SampleRate = fmt.Sprintf("%d", rate)
 }
 
-func (tts *tts) Voice(voice string) {
+func (tts *TTS) Voice(voice string) {
 	tts.request.VoiceId = fmt.Sprintf("%s", voice)
 }
 
-func (tts *tts) TextType(textType string) {
+func (tts *TTS) TextType(textType string) {
 	tts.request.TextType = fmt.Sprintf("%s", textType)
 }
 
-func (tts *tts) Speech(text string) ([]byte, error) {
+func (tts *TTS) Speech(text string) (data []byte, err error) {
 	tts.request.Text = text
 
 	b, err := json.Marshal(tts.request)
@@ -142,9 +144,11 @@ func (tts *tts) Speech(text string) ([]byte, error) {
 		return []byte{}, err
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		err = res.Body.Close()
+	}()
 
-	data, err := ioutil.ReadAll(res.Body)
+	data, err = ioutil.ReadAll(res.Body)
 
 	if err != nil {
 		return []byte{}, err
