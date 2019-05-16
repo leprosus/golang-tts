@@ -26,5 +26,6 @@ ioutil.WriteFile("./result.mp3", bytes, 0644)
 * golang_tts.New(accessKey, secretKey) - initializes new TTS client
 * golang_tts.Format(golang_ttl.MP3) - sets output format (mp3 is default)
 * golang_tts.SampleRate(golang_ttl.RATE_22050) - sets sample rate (22050 is default)
+* golang_tts.Language("en-GB") - sets language (en-US is default)
 * golang_tts.Voice(golang_ttl.Brian) - sets voice (Brian is default)
 * golang_tts.Speech("text to speech") - sends text to synthesize
