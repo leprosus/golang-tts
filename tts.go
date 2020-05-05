@@ -84,6 +84,7 @@ type TTS struct {
 }
 
 type request struct {
+	LanguageCode string
 	OutputFormat string
 	SampleRate   string
 	Text         string
@@ -96,6 +97,7 @@ func New(accessKey string, secretKey string) *TTS {
 		accessKey: accessKey,
 		secretKey: secretKey,
 		request: request{
+			LanguageCode: "en-US",
 			OutputFormat: "mp3",
 			SampleRate:   "22050",
 			Text:         "",
@@ -122,6 +124,10 @@ func (tts *TTS) Voice(voice string) {
 
 func (tts *TTS) TextType(textType string) {
 	tts.request.TextType = fmt.Sprintf("%s", textType)
+}
+
+func (tts *TTS) Language(lang string) {
+	tts.request.LanguageCode = fmt.Sprintf("%s", lang)
 }
 
 func (tts *TTS) Speech(text string) (data []byte, err error) {
@@ -153,7 +159,7 @@ func (tts *TTS) Speech(text string) (data []byte, err error) {
 	if err != nil {
 		return []byte{}, err
 	} else if res.StatusCode != 200 {
-		return []byte{}, fmt.Errorf("Returned status code: %s %q", res.Status, data)
+		return []byte{}, fmt.Errorf("returned status code: %s %q", res.Status, data)
 	}
 
 	return data, nil
