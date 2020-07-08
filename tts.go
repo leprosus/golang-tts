@@ -105,7 +105,7 @@ func New(accessKey string, secretKey string) *TTS {
 		accessKey: accessKey,
 		secretKey: secretKey,
 		request: request{
-			Engine:       "neural",
+			Engine:       "standard",
 			LanguageCode: "en-US",
 			OutputFormat: "mp3",
 			SampleRate:   "22050",
