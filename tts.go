@@ -13,6 +13,7 @@ const api = "https://polly.us-west-2.amazonaws.com"
 const (
 	MP3 format = iota
 	OGG
+	PCM
 )
 
 const (
@@ -111,6 +112,8 @@ func (tts *TTS) Format(format format) {
 		tts.request.OutputFormat = "mp3"
 	case OGG:
 		tts.request.OutputFormat = "ogg_vorbis"
+	case PCM:
+		tts.request.OutputFormat = "pcm"
 	}
 }
 
