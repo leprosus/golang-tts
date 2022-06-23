@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/bmizerany/aws4"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/bmizerany/aws4"
 )
 
 const api = "https://polly.us-west-2.amazonaws.com"
@@ -14,6 +15,11 @@ const (
 	MP3 format = iota
 	OGG
 	PCM
+)
+
+const (
+	NEURAL   engine = "neural"
+	STANDARD engine = "standard"
 )
 
 const (
@@ -77,6 +83,7 @@ const (
 type format int
 type rate int
 type voice int
+type engine string
 
 type TTS struct {
 	accessKey string
@@ -85,6 +92,7 @@ type TTS struct {
 }
 
 type request struct {
+	Engine       string
 	LanguageCode string
 	OutputFormat string
 	SampleRate   string
@@ -98,6 +106,7 @@ func New(accessKey string, secretKey string) *TTS {
 		accessKey: accessKey,
 		secretKey: secretKey,
 		request: request{
+			Engine:       "standard",
 			LanguageCode: "en-US",
 			OutputFormat: "mp3",
 			SampleRate:   "22050",
@@ -115,6 +124,10 @@ func (tts *TTS) Format(format format) {
 	case PCM:
 		tts.request.OutputFormat = "pcm"
 	}
+}
+
+func (tts *TTS) Engine(engine engine) {
+	tts.request.Engine = fmt.Sprintf("%s", engine)
 }
 
 func (tts *TTS) SampleRate(rate rate) {
